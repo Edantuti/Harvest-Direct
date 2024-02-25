@@ -3,10 +3,7 @@ import ProductCard from "~/components/ProductCard";
 import SideBar from "~/components/SideBar";
 import Header from "~/components/Header";
 import useSWR, { SWRConfig } from 'swr'
-
-export const fetcher = (url:string)=>{
-  return fetch(url).then(res=>{console.log(res);return res.json()})
-}
+import { fetcher } from "~/lib/utils"
 
 
 function getItems(){

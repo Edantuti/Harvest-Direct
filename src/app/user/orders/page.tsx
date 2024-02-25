@@ -1,5 +1,5 @@
 "use client"
-import { fetcher } from "~/app/items/page"
+import { fetcher } from "~/lib/utils"
 import HeaderProduct from "~/components/HeaderProduct"
 import { UserBar } from "~/components/UserBar"
 import { Table, TableCaption, TableHeader, TableRow, TableBody, TableCell, TableHead } from "~/components/ui/table"

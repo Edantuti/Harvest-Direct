@@ -11,7 +11,7 @@ import { FaCartPlus } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
-import { fetcher } from "../page";
+import { fetcher } from "~/lib/utils"
 
 export default function ItemPage(
 
