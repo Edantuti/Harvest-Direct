@@ -29,11 +29,11 @@ export default function SideBar (){
                         </SelectContent>
                     </Select>
                 </li>
-                <li className="flex gap-px items-center mx-5">
+                {/* <li className="flex gap-px items-center mx-5">
                    <span>Freshness:</span>
                     <Slider defaultValue={[50]} max={2} step={1} className="w-[10rem] mx-auto" />
                 </li>
-                    
+                     */}
             </ul>
         </nav>
     )

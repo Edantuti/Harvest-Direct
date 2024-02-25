@@ -1,10 +1,10 @@
-export default function RootLayout({
+export default function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <main>
+    <main className="">
         {children}</main>
   );
 }

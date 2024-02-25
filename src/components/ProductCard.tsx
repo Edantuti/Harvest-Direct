@@ -7,39 +7,34 @@ import { IoMdStar } from "react-icons/io";
 import Image from "next/image";
 
 import { Button } from "~/components/ui/button";
-import {useState} from "react"
+
 import Flour from "~/assets/flour.jpg"
 
-export default function ProductCard(){
-  const [quantity,changeQuantity] = useState<number>(1)
- return (   <Card className="w-72 bg-gradient-to-bl from-black to-neutral-900">
+export default function ProductCard({id,name,type,photos,rating, owner}:any){
+  
+ return (   <Card className="w-72 bg-gradient-to-bl from-black to-neutral-900 row-span-1">
       <CardHeader>
-        <Image src={Flour} alt="life" className="w-full rounded" />
+        <Image src={photos[0]} alt="life" className="w-full rounded" width={400} height={400} />
         <CardDescription>2kg</CardDescription>
-        <CardTitle>Flour</CardTitle>
+        <CardTitle>{name}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-px">
-        <p className="text-sm">From: Farmer name</p>
+        <p className="text-sm flex items-center">From: <span className="text-xs text-neutral-300">{owner.name}</span></p>
         <div className="flex text-sm gap-2">
           <p>Rating: </p>
           <span className="flex items-center justify-center gap-1 bg-white w-fit rounded-full px-2 text-black">
             <IoMdStar/>
-            4.3
+            {rating}
           </span>
+          </div>
         <div className="flex text-sm">
+          <p>Type: {type}</p>
         </div>
-          <p>Type: Organic </p>
-        </div>
-          <p className="flex text-sm">Freshness: &lt; 2weeks</p> 
       </CardContent>
-      <CardFooter className="flex gap-4 justify-between">
-        
-        <Link href="/items/life"><Button className="rounded-full w-20 hover:border-2 hover:border-neutral-600 hover:fill-white hover:bg-neutral-900 group"><FaCartPlus className="group-hover:fill-white"/></Button></Link>
-        <span className="flex bg-white rounded-full">
-          <Button className="rounded-s-full" onClick={()=>{changeQuantity(quantity+1)}}>+</Button>
-          <div className="bg-white text-black flex items-center justify-center">{quantity}</div>
-          <Button className="rounded-r-full" onClick={()=>{if(quantity-1<0) return; changeQuantity(quantity-1)}}>-</Button>
-          </span>
+      <CardFooter className="flex justify-center">
+        <Link href={`/items/${id}`} className="w-full mt-10">
+          <Button className="w-full rounded-full hover:border-2 hover:border-neutral-600 hover:fill-white hover:bg-neutral-900 group"><FaCartPlus className="group-hover:fill-white w-10"/></Button>
+          </Link>
       </CardFooter>
     </Card>
  )
