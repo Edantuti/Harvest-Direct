@@ -41,10 +41,14 @@ export default function UserPage() {
   })
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    alert(values.first + " " + values.last + "Value :" + values.farmer)
+    // alert(values.first + " " + values.last + "Value :" + values.farmer)
+    const data = await fetch("/api/user/details", {
+        method:"POST",
+        body:JSON.stringify({name:values.first+" "+values.last, farmer:values.farmer})
+    })
   }
   return (
     <>

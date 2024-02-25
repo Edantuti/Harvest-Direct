@@ -22,10 +22,11 @@ async function GET(req:NextRequest){
 
 async function POST(req:NextRequest){
     const session = await getServerSession(authOptions)
+    if(!session) return NextResponse.json({message:"Session Code"},{status:403})
     const formData = await req.formData()
     const imageUrl = []
     const name = formData.get("name")
-    const ownerId = formData.get("ownerId")
+    const ownerId = session.user.id
     const rating = formData.get("rating")
     const price = formData.get("price")
     const type = formData.get("type")
@@ -47,6 +48,7 @@ async function POST(req:NextRequest){
             photos:imageUrl,
         }
     })
+    console.log("Done")
     return NextResponse.json({message:"Done", response})
 }
 
@@ -61,24 +63,29 @@ async function PUT(req:NextRequest){
   const name = formData.get("name")
   const ownerId = session.user.id
   const rating = formData.get("rating")
+  const quantity = formData.get("quantity")
   const price = formData.get("price")
   const type = formData.get("type")
   for(const file of files){
     if(typeof file === 'string'){
       imageUrl.push(file)
-      continue;
+      
+    }else{
+      const {data, error} = await supabase.storage.from("lifesaver").upload(`/${randomUUID()}`, file)
+      if(data)
+        imageUrl.push(`${env.SUPABASE_URL}/storage/v1/object/public/${"lifesaver/"+data.path}`)
     }
-    const {data, error} = await supabase.storage.from("lifesaver").upload(`/${randomUUID()}`, file)
-    if(data)
-      imageUrl.push(`${env.SUPABASE_URL}/storage/v1/object/public/${"lifesaver/"+data.path}`)
   }
 
-  const dataOBJ:{name?:string, rating?:number, price?:number, type?:string} = {}
+  const dataOBJ:{name?:string, rating?:number, price?:number, type?:string, quantity?:number} = {}
   if(formData.has("name") && name){
     Object.assign(dataOBJ, {name:name.toString()})
   }
   if(formData.has("rating") && rating){
     Object.assign(dataOBJ, {rating:parseFloat(rating.toString())})
+  }
+  if(formData.has("quantity") && quantity){
+    Object.assign(dataOBJ, {quantity:parseInt(quantity.toString())})
   }
   if(formData.has("price") && price){
     Object.assign(dataOBJ, {price:parseInt(price.toString())})
@@ -89,6 +96,7 @@ async function PUT(req:NextRequest){
   if(imageUrl.length>0){
     Object.assign(dataOBJ, {photos:imageUrl})
   }
+  console.log(dataOBJ)
   const data = await db.items.update({
     where:{
       id:itemID.toString(),

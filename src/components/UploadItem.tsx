@@ -29,11 +29,10 @@ import { Button } from "./ui/button"
 
 const formSchema = z.object({
     name:z.string().min(2,{message:"The Item name should have atleast 2 characters."}),
-    quantity:z.string().min(1,{message:"Atleast item quantity has to be one"}),
+    quantity:z.coerce.number().min(1,{message:"Atleast item quantity has to be one"}),
     type:z.string(),
-    price:z.number().min(1,{message:"Price must be greater than one."}),
-    description:z.string(),
-    details:z.array(z.string())
+    price:z.coerce.number().min(1,{message:"Price must be greater than one."}),
+    rating:z.coerce.number().min(0).max(10)
 })
 
 
@@ -42,11 +41,10 @@ export default function UploadItem(){
         resolver:zodResolver(formSchema),
         defaultValues:{
             name:"",
-            quantity:"0",
+            quantity:0,
             type:'organic',
             price:0,
-            description:"",
-            details:[]
+            rating:0,
         }
     })
     const [file,changeFile] = useState<File|null>(null)
@@ -54,16 +52,30 @@ export default function UploadItem(){
         if(!e.target.files[0]) return;
         changeFile(e.target.files[0])
     }
-    function onSubmit(values:z.infer<typeof formSchema>){
-        console.log(file)
+    async function onSubmit(values:z.infer<typeof formSchema>){
         if(file===null) return;
-        console.log(values)
+        const formData = new FormData();
+        formData.append("name", values.name)
+        formData.append("quantity", values.quantity.toString())
+        formData.append("price",values.price.toString())
+        formData.append("type", values.type)
+        formData.append("rating", values.rating.toString())
+        formData.append("file", file)
+        try{
+        const data = await fetch('/api/user/item', {
+            method:"POST",
+            body:formData
+        })
+        console.log(data)
+        }catch(error){
+            console.error(error)
+        }
     }
     return (
         <div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-2">
-                    <p>File input</p>
+                    <p>Photo upload</p>
                     <Input type="file" onChange={(e)=>changeFi(e)} />
                     <FormField control={form.control} name="name" render={
                         ({field}) =>(
@@ -88,6 +100,28 @@ export default function UploadItem(){
                             </FormItem>
                         )
                     } />
+                    <FormField control={form.control} name="price" render={
+                        ({field}) =>(
+                            <FormItem>
+                                <FormLabel>Price</FormLabel>
+                                <FormControl>
+                                    <Input type="number" placeholder="Item Price" {...field} />
+                                </FormControl>
+                                <FormMessage/>
+                            </FormItem>
+                        )
+                    } />
+                    <FormField control={form.control} name="rating" render={
+                        ({field}) =>(
+                            <FormItem>
+                                <FormLabel>Rating</FormLabel>
+                                <FormControl>
+                                    <Input type="number" placeholder="Item rating"  {...field} />
+                                </FormControl>
+                                <FormMessage/>
+                            </FormItem>
+                        )
+                    } />
                     <FormField control={form.control} name="type" render={
                         ({field}) =>(
                             <FormItem>
@@ -103,18 +137,6 @@ export default function UploadItem(){
                                     <SelectItem value="inorganic">InOrganic</SelectItem>
                                 </SelectContent>
                                 </Select>
-                                <FormMessage/>
-                            </FormItem>
-                        )
-                    } />
-                    
-                    <FormField control={form.control} name="description" render={
-                        ({field}) =>(
-                            <FormItem>
-                                <FormLabel>Description</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Description" {...field} />
-                                </FormControl>
                                 <FormMessage/>
                             </FormItem>
                         )

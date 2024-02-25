@@ -8,14 +8,12 @@ import Image from "next/image";
 
 import { Button } from "~/components/ui/button";
 
-import Flour from "~/assets/flour.jpg"
-
 export default function ProductCard({id,name,type,photos,rating, owner}:any){
   
  return (   <Card className="w-72 bg-gradient-to-bl from-black to-neutral-900 row-span-1">
       <CardHeader>
-        <Image src={photos[0]} alt="life" className="w-full rounded" width={400} height={400} />
-        <CardDescription>2kg</CardDescription>
+        <Image src={photos[0]} alt="life" className="aspect-square object-cover rounded" width={400} height={400} />
+        <CardDescription></CardDescription>
         <CardTitle>{name}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-px">

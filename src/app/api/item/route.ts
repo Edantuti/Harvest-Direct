@@ -16,7 +16,8 @@ async function GET(req:NextRequest){
         searchObj.type = query.get("type")
     }
     if(query.get("farmer")){
-        searchObj.owner = {name:{search:query.get("farmer")}}
+        //@ts-ignore
+        searchObj.owner = {name:{search:query.get("farmer").replace(" ","\\ ")}}
     }
     const data = await db.items.findMany({
         //@ts-ignore

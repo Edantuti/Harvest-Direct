@@ -19,13 +19,13 @@ export default function WebPage(){
   <main className="">
     <Header/>
     <SideBar/>
-    {isLoading && <p>wait</p>}    
-    <section className="mx-auto border rounded p-4 grid grid-flow-col-dense gap-10 w-fit">
     
-    {!isLoading && data.map((obj:any)=>(
+    {!isLoading && <section className="mx-auto border rounded p-4 grid grid-cols-3 gap-10 w-fit">
+    
+    {data.map((obj:any)=>(
       <ProductCard key={obj.id} {...obj}/>
     ))}
-    </section>
+    </section>}
   </main>
   )
 }

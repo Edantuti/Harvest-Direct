@@ -10,7 +10,7 @@ async function GET(req:NextRequest){
         message:"BAKA YAARO, You are Not Authorized"
     })
     const data = await db.orders.findMany({
-        where:{userId:session?.user.id},
+        where:{userId:session.user.id},
         include:{
             ItemOrder:{
                 select:{
