@@ -5,7 +5,7 @@ import Image, { StaticImageData } from "next/image"
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "~/components/ui/table"
 import { Button } from "~/components/ui/button"
 import useSWR from "swr"
-import { fetcher } from "../items/page"
+import { fetcher } from "~/lib/utils"
 import { IoTrashBin } from "react-icons/io5";
 import { FaArrowRight } from "react-icons/fa"
 import { useRouter } from "next/navigation"

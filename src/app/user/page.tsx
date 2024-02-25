@@ -2,7 +2,7 @@
 
 import HeaderProduct from "~/components/HeaderProduct";
 import { UserBar } from "~/components/UserBar";
-import { fetcher } from "~/app/items/page"
+import { fetcher } from "~/lib/utils"
 import { Table, TableCaption, TableHeader, TableRow, TableBody, TableCell, TableHead } from "~/components/ui/table"
 import useSWR from "swr"
 import { useSession } from "next-auth/react";
