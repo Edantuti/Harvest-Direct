@@ -30,7 +30,7 @@ async function POST(req:NextRequest){
     const price = formData.get("price")
     const type = formData.get("type")
     const files = formData.getAll("file")
-      for(let file of files){
+      for(const file of files){
         console.log(randomUUID())
         const {data,error} = await supabase.storage.from("lifesaver").upload(`/${randomUUID()}`,file)
         if(data)
@@ -63,7 +63,7 @@ async function PUT(req:NextRequest){
   const rating = formData.get("rating")
   const price = formData.get("price")
   const type = formData.get("type")
-  for(let file of files){
+  for(const file of files){
     if(typeof file === 'string'){
       imageUrl.push(file)
       continue;
@@ -73,7 +73,7 @@ async function PUT(req:NextRequest){
       imageUrl.push(`${env.SUPABASE_URL}/storage/v1/object/public/${"lifesaver/"+data.path}`)
   }
 
-  let dataOBJ:{name?:string, rating?:number, price?:number, type?:string} = {}
+  const dataOBJ:{name?:string, rating?:number, price?:number, type?:string} = {}
   if(formData.has("name") && name){
     Object.assign(dataOBJ, {name:name.toString()})
   }

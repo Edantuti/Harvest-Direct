@@ -6,9 +6,23 @@ await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
 const config = {
-    images:{
-        domains:["epnzbytknayfsuzgfjqz.supabase.co"]
-    }
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'epnzbytknayfsuzgfjqz.supabase.co',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+    domains: ["epnzbytknayfsuzgfjqz.supabase.co"]
+  }
 };
 
 export default config;

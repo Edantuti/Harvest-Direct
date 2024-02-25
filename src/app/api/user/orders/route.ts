@@ -41,9 +41,9 @@ async function POST(req:NextRequest){
                 item:true
             }
         })
-        let total:number = 0;
-        let items:{orderId:string, itemId:string}[] = []
-        for(let it of cartItem){
+        let total = 0;
+        const items:{orderId:string, itemId:string}[] = []
+        for(const it of cartItem){
             console.log(it.item.price)
             console.log(it.quantity)
             total+=it.item.price*it.quantity
@@ -65,7 +65,7 @@ async function POST(req:NextRequest){
         const order = await t.orders.create({
             data:{userId:session.user.id, total:total}
         })
-        for(let it of cartItem){
+        for(const it of cartItem){
            items.push({orderId:order.id,itemId:it.item.id}) 
         }
         

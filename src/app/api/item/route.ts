@@ -5,7 +5,7 @@ import { authOptions } from "~/server/auth";
 
 async function GET(req:NextRequest){
     const query = req.nextUrl.searchParams
-    let searchObj:{id?:string | null, name?:{search?: string| null}, type?:string |null, owner?:{name?:{search:string |null}}} = {}
+    const searchObj:{id?:string | null, name?:{search?: string| null}, type?:string |null, owner?:{name?:{search:string |null}}} = {}
     if(query.get("id")){
         searchObj.id = query.get("id")
     }

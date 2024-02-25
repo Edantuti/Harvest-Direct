@@ -15,8 +15,8 @@ const getUserCart = ()=>{
     let value = 0;
     if(isLoading) return {isLoading}
     console.log(data)
-    if(data && data.CartItem)
-    for(let items of data.CartItem){
+    if(data?.CartItem)
+    for(const items of data.CartItem){
         value+=items.quantity*items.item.price;
     }
     return {data,error,isLoading, value}
@@ -55,7 +55,7 @@ export default function CartPage(){
                      </TableHeader>
                     <TableBody>
                         
-                        {data && data.CartItem.map((obj:any,index:number)=>{
+                        {data?.CartItem.map((obj:any,index:number)=>{
                             return(<CartItemRow key={obj.itemId} id={obj.itemId} image_url={obj.item.photos[0]} name={obj.item.name} quantity={obj.quantity} farmer_name={obj.item.owner.name} price={obj.item.price} />)
                         })}
                         <TableRow>
