@@ -44,8 +44,8 @@ async function POST(req:NextRequest){
             }
         }
     )
-    let item:{cartId:string, itemId:string, quantity:number}[] = []
-    for(let i of data.cart){
+    const item:{cartId:string, itemId:string, quantity:number}[] = []
+    for(const i of data.cart){
         item.push({cartId:cart.id, itemId:i.itemId, quantity:i.quantity})
     }
     const da = await db.cartItem.createMany({
